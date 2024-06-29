@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="blocks/fragments :: head('Checkout - FloraPalestine', 'none')">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+
+</head>
+
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script th:src="@{/js/shopping-cart.js}"></script>
+
+<!--NavBar-->
+<nav th:fragment="navbar" class="navbar sticky-top navbar-expand-lg" style="background-color: #72af30 !important;">
+    <div class="container">
+        <!--Logo-->
+        <a href="/" class="navbar-brand waves-effect rounded" style="color: white; font-weight: bold;">
+            Flora Palestine
+        </a>
+        <!--For smartphones menu-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
+        </button>
+        <!--Left-->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="http://127.0.0.1:5500/site/index.html" style="color: white;">Home</a></li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded" href="/category" style="color: white;">Category</a></li>
+                <!-- قائمة جديدة مضافة -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAboutUs" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        About us
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAboutUs">
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/about-us.html">About us</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/careers.html">Careers</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/faq.html">FAQ</a>
+                        <a class="dropdown-item active" href="http://127.0.0.1:5500/site/Our%20vision.html">Our vision</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:5500/site/chat/index.html" style="color: white;">Services
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlogMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        scientific articles
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownBlogMenu">
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/blog.html">scientific articles</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/single-post.html">Single scientific articles</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:5500/site/contacts.html" style="color: white;">Contacts
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a sec:authorize="isAuthenticated()" href="/basket" class="nav-link waves-effect rounded" style="color: white;">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button" style="color: white;">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+                </li>
+                <!--Profile dropdown-->
+                <li class="nav-item dropdown ml-3" sec:authorize="isAnonymous()">
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button" style="color: white;">
+                        <span class="fas fa-user"></span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown ml-3" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light font-weight-bold rounded"
+                       id="navbarDropdownUserMenu" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        <span class="fas fa-user"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn text-center"
+                         aria-labelledby="navbarDropdownUserMenu">
+                        <a class="text-danger dropdown-item waves-effect waves-light rounded" href="/admin"
+                           sec:authorize="hasAuthority('ADMIN')">Admin</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/profile"
+                           sec:authorize="isAuthenticated()">My Account</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/orders"
+                           sec:authorize="isAuthenticated()">My Orders</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/logout"
+                           sec:authorize="isAuthenticated()">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Login modal-->
+    <div th:replace="/blocks/login :: loginModal"></div>
+</nav>
+
+<body class="bg-white">
+<div class="container">
+    <a href="/" class="navbar-brand waves-effect rounded mt-2">
+        <img th:src="@{/assets/favicon.png}" width="65">
+    </a>
+
+    <hr class="mt-0"/>
+
+    <div class="py-4 left">
+        <h2>[[#{checkout.checkoutTitle}]]</h2>
+    </div>
+    <div class="row">
+        <div class="custom_product col-md-4 order-md-2 mb-4 sticky-top">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">[[#{checkout.checkoutYourCart}]]</span>
+            </h4>
+            <ul class="custom_product list-group mb-3 sticky-top">
+                <div class="items" th:each="basketItem: ${orderBaskets}">
+                    <div class="product" th:with="product = ${basketItem.product}">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <img class="img-fluid mx-auto d-block image"
+                                     th:src="'/product-images/'+${product.imageURL}" width="50" height="50"/>
+                                <h6 class="my-0">
+                                    <a th:text="${product.title}"
+                                       th:href="@{'/product/' + ${product.alias}}"></a>
+                                </h6>
+                            </div>
+                            <div class="text-muted">
+                                    <span class="productSubtotal"
+                                          th:id="'subtotal' + ${product.id}">[[${basketItem.subtotal}]]</span><span>₪</span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div class="summary-item"><span class="text">[[#{checkout.total}]]</span>
+                        <span class="price" style="margin-left: 70px; font-size: 21px; font-weight: 500;"
+                              id="totalAmount"></span>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class=" text-center">
+                        <label for="checkoutBtn" class="btn custom_buttons btn-md my-0 p rounded"
+                               tabindex="0">[[#{checkout.checkoutLast}]]</label>
+                    </div>
+                    <span class="grey-text" style="font-size: 12px">[[#{checkout.termsMain}]]
+                    <ul class="ml-2">
+                        <li class="ml-3">
+                            [[#{checkout.termsFirst}]]
+                        </li>
+                        <li class="ml-3">
+                            [[#{checkout.termsSecond}]]
+                        </li>
+                    </ul></span>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h5 class="mb-4">[[#{checkout.contactDetails}]]</h5>
+            <div class="userInfo" th:with="userInfo = ${user.userInfo}">
+                <div class="row ml-4">
+                    <div class="col-md-6 mb-3">
+                        <label>[[#{checkout.name}]]</label>
+                        <span th:text="${userInfo.name}"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>[[#{checkout.name}]]</label>
+                        <span th:text="${userInfo.surname}"></span>
+                    </div>
+                </div>
+                <div class="row ml-4">
+                    <div class="col-md-6 mb-3">
+                        <label>[[#{checkout.email}]]</label>
+                        <span th:text="${user.email}"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>[[#{checkout.login}]]</label>
+                        <span th:text="${user.login}"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3 ml-4">
+                    <label>[[#{checkout.phone}]]</label>
+                    <span th:text="${userInfo.phone}"></span>
+                </div>
+            </div>
+
+            <hr class="mb-4">
+
+            <h5 class="mb-3">[[#{checkout.delivery}]]</h5>
+
+            <form th:action="@{/payment}" th:object="${order}" method="post">
+                <div class="mb-3 ml-4">
+                    <label for="address">[[#{checkout.address}]]</label>
+                    <input style="width: 300px;" th:field="*{address}" type="text" class="form-control" id="address"
+                           placeholder="Ramallah..Hebron" required>
+                    <div class="invalid-feedback">
+                        [[#{checkout.errorAddress}]]
+                    </div>
+                </div>
+
+                <div class="mb-3 ml-4">
+                    <label for="city">[[#{checkout.city}]]</label>
+                    <input style="width: 300px;" th:field="*{city}" type="text" class="form-control" id="city"
+                           placeholder="Birzeit ..Al-Masyoun"
+                           required>
+                    <div class="invalid-feedback">
+                        [[#{checkout.errorCity}]]
+                    </div>
+                </div>
+                <h6>[[#{checkout.chooseDelivery}]]</h6>
+
+                <hr class="mb-4">
+
+                <h5 class="mb-3">[[#{checkout.paymentTitle}]]</h5>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio ml-4">
+                        <input th:field="*{orderStatus}" id="store" name="paymentMethod" type="radio"
+                               class="custom-control-input"
+                               required th:value="${waiting}">
+                        <label class="custom-control-label" for="store">[[#{checkout.paymentFirst}]]</label>
+                    </div>
+
+                    <div class="custom-control custom-radio ml-4">
+                        <input th:field="*{orderStatus}" id="card" name="paymentMethod" type="radio"
+                               class="custom-control-input"
+                               required th:value="${payed}">
+                        <label class="custom-control-label" for="card">[[#{checkout.paymentSecond}]]</label>
+                    </div>
+                </div>
+                <input type="submit" id="checkoutBtn" class="d-none"/>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">FloraPalestine</a>, All Right Reserved 2024.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+</div>
+</body>
+</html>

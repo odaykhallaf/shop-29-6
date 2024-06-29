@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ecommerce-system-master.iml" filepath="$PROJECT_DIR$/.idea/ecommerce-system-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ecommerce-system-master/site_project.iml" filepath="$PROJECT_DIR$/ecommerce-system-master/site_project.iml" />
+    </modules>
+  </component>
+</project>

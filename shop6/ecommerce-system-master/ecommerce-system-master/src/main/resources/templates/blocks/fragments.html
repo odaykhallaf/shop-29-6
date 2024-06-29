@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--Header-->
+<head th:fragment="head(title, remove)" th:remove="${remove}">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.png}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" th:href="@{/css/mdb.css}"/>
+    <!--    Custom css-->
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+
+<!--Main scripts-->
+<div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+        var csrfHeaderName = "[[${_csrf.headerName}]]";
+        var csrfValue = "[[${_csrf.token}]]";
+    </script>
+</div>
+<!--Navigation bar-->
+<nav th:fragment="navbar" class="navbar sticky-top navbar-expand-lg" style="background-color: #72af30 !important;">
+    <div class="container">
+        <!--Logo-->
+        <a href="/" class="navbar-brand waves-effect rounded" style="color: white; font-weight: bold;">
+            Flora Palestine
+        </a>
+        <!--For smartphones menu-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
+        </button>
+        <!--Left-->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="http://127.0.0.1:5500/site/index.html" style="color: white;">Home</a></li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded" href="/category" style="color: white;">Category</a></li>
+                <!-- قائمة جديدة مضافة -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAboutUs" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        About us
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAboutUs">
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/about-us.html">About us</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/careers.html">Careers</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/faq.html">FAQ</a>
+                        <a class="dropdown-item active" href="http://127.0.0.1:5500/site/Our%20vision.html">Our vision</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:5500/site/chat/index.html" style="color: white;">Services
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="booking.html" style="color: white;">Booking-->
+<!--                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">-->
+<!--                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>-->
+<!--                        </svg>-->
+<!--                    </a>-->
+<!--                </li>-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlogMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        scientific articles
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownBlogMenu">
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/blog.html">scientific articles</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5500/site/single-post.html">Single scientific articles</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:5500/site/contacts.html" style="color: white;">Contacts
+                        <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                            <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mr-auto ml-auto">
+                <li class="custom_item">
+                    <form class="form-inline" th:action="@{/search}" method="get">
+                        <div class="search-box">
+                            <button type="submit" class="btn-search" onclick="this.blur();"><i class="fas fa-search"></i></button>
+                            <input type="text" name="keyword"
+                                   class="input-search" placeholder="Type to Search..." required/>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a sec:authorize="isAuthenticated()" href="/basket" class="nav-link waves-effect rounded" style="color: white;">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button" style="color: white;">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+                </li>
+                <!--Profile dropdown-->
+                <li class="nav-item dropdown ml-3" sec:authorize="isAnonymous()">
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button" style="color: white;">
+                        <span class="fas fa-user"></span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown ml-3" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light font-weight-bold rounded"
+                       id="navbarDropdownUserMenu" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        <span class="fas fa-user"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn text-center"
+                         aria-labelledby="navbarDropdownUserMenu">
+                        <a class="text-danger dropdown-item waves-effect waves-light rounded" href="/admin"
+                           sec:authorize="hasAuthority('ADMIN')">Admin</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/profile"
+                           sec:authorize="isAuthenticated()">My Account</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/orders"
+                           sec:authorize="isAuthenticated()">My Orders</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/logout"
+                           sec:authorize="isAuthenticated()">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Login modal-->
+    <div th:replace="/blocks/login :: loginModal"></div>
+</nav>
+
+<!--Navigation menu-->
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            About us
+            <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="about-us.html">About us</a>
+            <a class="dropdown-item" href="careers.html">Careers</a>
+            <a class="dropdown-item" href="faq.html">FAQ</a>
+            <a class="dropdown-item active" href="our-vision.html">Our vision</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="services.html">Services
+            <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="booking.html">Booking
+            <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+        </a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Blog
+            <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownBlog">
+            <a class="dropdown-item" href="">Blog</a>
+            <a class="dropdown-item" href="">Single post</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="contacts.html">Contacts
+            <svg class="button-santos" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <rect class="shape" width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+        </a>
+    </li>
+</ul>
+        </div>
+    </div>
+    <!--Login modal-->
+    <div th:replace="/blocks/login :: loginModal"></div>
+</nav>
+
+
+<!--Footer-->
+<!--Footer-->
+<!--Footer-->
+<footer th:fragment="footer" class="footer text-center text-lg-start mt-5">
+    <!-- Grid container -->
+    <div class="container py-3"> <!-- تقليل الارتفاع بإزالة الـ padding الزائد -->
+        <div class="row g-3"> <!-- تقليل الـ gap بين الأعمدة -->
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Our Office</h4> <!-- تقليل الـ margin-bottom -->
+                <p class="mb-1"><i class="fa fa-map-marker-alt me-2"></i>Palestine</p> <!-- تقليل الـ margin-bottom -->
+                <p class="mb-1"><i class="fa fa-phone-alt me-2"></i>+9725900000</p> <!-- تقليل الـ margin-bottom -->
+                <p class="mb-1"><i class="fa fa-envelope me-2"></i>FloraPalestine@example.com</p> <!-- تقليل الـ margin-bottom -->
+
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Services</h4>
+                <a class="btn btn-link" href="">Landscaping</a>
+                <a class="btn btn-link" href="">Pruning plants</a>
+                <a class="btn btn-link" href="">Plants</a>
+                <a class="btn btn-link" href="">Pruning plants</a>
+                <a class="btn btn-link" href="">Pruning plants</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Quick Links</h4>
+                <a class="btn btn-link" href="">About Us</a>
+                <a class="btn btn-link" href="">Contact Us</a>
+                <a class="btn btn-link" href="">Our Services</a>
+                <a class="btn btn-link" href="">Terms & Condition</a>
+                <a class="btn btn-link" href="">Support</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Newsletter</h4>
+                <form class="newsletter-form">
+                    <div class="position-relative w-100">
+                        <input class="form-control bg-light border-light w-100 py-2 ps-3 pe-4" type="text" placeholder="Your email"> <!-- تقليل الـ padding -->
+                        <button type="submit" class="btn btn-primary py-1 position-absolute top-0 end-0 mt-1 me-1">SignUp</button> <!-- تقليل الـ padding والـ margin -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid copyright py-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    &copy; <a class="border-bottom" href="#"></a> Flora Palestine, All Right Reserved 2024.
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer End -->
+
+<!-- Copyright Start -->
+
+
+<!--Pagination for whole site-->
+<a th:fragment="page_link(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum}}">
+    [[${label}]]
+</a>
+<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1 mb-4 mt-5" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[#{pagination.found}]]</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, 1, #{pagination.first})"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage - 1}, #{pagination.previous})"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage + 1}, #{pagination.next})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--Pagination for admin page(used only in product,
+but can be also used in another admin pages if you modify code to sort and search-->
+<a th:fragment="page_link2(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum} +'?sortField=' +${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId='+ categoryId : ''}}">
+    [[${label}]]
+</a>
+<div th:fragment="paginationAdmin(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1 mb-4 mt-5" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[#{pagination.found}]]</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, 1, #{pagination.first})"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${currentPage - 1}, #{pagination.previous})"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${currentPage + 1}, #{pagination.next})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!--Button + - for products and checkout-->
+<div class="h-80 d-flex align-items-center justify-content-center" th:fragment="quantity_control(qtyValue, productId)">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link minusButton" href="" th:pid="${productId}"><b>-</b></a>
+            </li>
+
+            <li class="page-item">
+                <input type="text" th:value="${qtyValue}" class="form-control text-center"
+                       onkeydown="return false;" style="max-width: 55px; max-height: 35px"
+                       th:id="'quantity'+${productId}"/>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link plusButton" href="" th:pid="${productId}"><b>+</b></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!--Addition footer for checkout and admin-->
+<div th:fragment="additional_footer" class="text-center copyright mt-5 p-4">
+    <hr/>
+    <span class="credit">[[#{footer.created}]] <a href="https://github.com/SEM24">SEM</a> | </span>
+    <span class="far fa-copyright"></span><span> [[#{footer.copyright}]]</span>
+</div>
+
+<!-- Modal for errors-->
+<div th:fragment="showModal" class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody">This is content</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded" data-dismiss="modal">[[#{modal.closeBtn}]]</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+
+</html>
